@@ -1,3 +1,9 @@
 build/
 dist/
+
+*.pyc
+em_data/augmentation/*.c
+
 test/event*
+
+.*.sw*
