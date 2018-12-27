@@ -1,23 +1,23 @@
 from em_data.data_loader import *
 
-class foo(object):
-    pass
+from test_util import foo
 
-def test_io():
-    D0='/n/coxfs01/donglai/data/cremi/mala_v2/data_align_crop/'
+def test_snemi():
+    D0='/n/coxfs01/donglai/data/SNEMI3D/'
     opt = foo()
     opt.mode = 'train'
-    opt.vol_input = '18,160,160'
-    opt.vol_output = '18,160,160'
-    opt.train_img = D0+'sample_A_im_crop.hdf@'+D0+'sample_B_im_crop.hdf'
-    opt.train_seg = D0+'sample_A_seg_crop.hdf@'+D0+'sample_B_seg_crop.hdf'
-    opt.train_img_name = 'main@main'
-    opt.train_seg_name = 'stack@stack'
+    opt.size_input = '18,160,160'
+    opt.size_output = '18,160,160'
+    opt.train_img = D0+'train-input_df_150.h5'
+    opt.train_seg = D0+'train-labels.h5'
+    opt.train_img_name = 'main'
+    opt.train_seg_name = 'main'
     opt.val_img = ''
     opt.val_seg = ''
     opt.val_img_name = ''
     opt.val_seg_name = ''
     ll = getDataLoader(opt)
+    return ll
 
 if __name__ == '__main__':
-    test_io()
+    test_snemi()

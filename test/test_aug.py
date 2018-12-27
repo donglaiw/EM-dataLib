@@ -1,28 +1,35 @@
 import h5py
 import numpy as np
 
-import tensorflow as tf
-
 from em_data.augmentation import *
+from test_util import check_diff
 
-def test_flip(data, writer):
-    aug = Flip()
-    data2 = aug(data.copy(),rule=[0,1,0,0]) 
-    sz = data['img'][0].shape
-    out = tf.convert_to_tensor(np.vstack([data['img'][0].reshape(sz[0],sz[1],sz[2],1),
-                    data['seg'][0].reshape(sz[0],sz[1],sz[2],1),
-                    data2['img'][0].reshape(sz[0],sz[1],sz[2],1),
-                    data2['seg'][0].reshape(sz[0],sz[1],sz[2],1)
-                   ]),dtype=tf.float32)
-    for i in range(4):
-        summary_op = tf.summary.image("image_"+str(i), out[i*3:(i+1)*3-1])
-        summary = sess.run(summary_op)
-        writer.add_summary(summary,1)
-    writer.flush()
+def test_flip(data):
+    spec={}
+    for i in [0,1,2]:
+        aug = Flip(spec, [i])
+        aug.prepare(spec)
+        data2 = aug(data.copy()) 
+        if i==0:
+            for k in data.keys():
+                check_diff(data2[k], data[k])
+        elif i==1:# swap xy
+            for k in data.keys():
+                check_diff(data2[k].transpose((0,1,3,2)), data[k])
+        elif i==2:# flip x
+            for k in data.keys():
+                check_diff(data2[k], data[k][:,:,:,1:][:,:,:,::-1])
+
+def test_grey(data):
+    spec={}
+    aug = Greyscale(spec,param=[0,0.5,0.1,0.3,2])
+    aug.prepare(spec)
+    data2 = aug(data.copy()) 
+    check_diff(data2[k], data[k][:,:,:,1:][:,:,:,::-1])
+
 
 def test_warp(img, seg):
     import pdb; pdb.set_trace()
-
 
 if __name__ == '__main__':
     # tensorboard --logdir test
@@ -32,11 +39,6 @@ if __name__ == '__main__':
     data = {'img': img[30:33,:300,:300][None,:], 
             'seg': seg[30:33,:300,:300][None,:]}
 
-    init_op = tf.global_variables_initializer()
-    with tf.Session() as sess: 
-        sess.run(init_op)
-        writer = tf.summary.FileWriter('./', sess.graph)
-        test_flip(data, writer)
-        #test_warp(img, seg)
-        writer.close()
-        sess.close()
+    test_grey(data)
+    #test_flip(data)
+
