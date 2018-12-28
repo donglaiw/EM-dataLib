@@ -9,7 +9,7 @@ Kisuk Lee <kisuklee@mit.edu>, 2017
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter
 
-from em_data.augmentor import DataAugment
+from .augmentor import DataAugment
 
 class Blur(DataAugment):
     """

@@ -120,7 +120,7 @@ class VolumeSamplerTrain(VolumeSampler):
                     sz[mode] = self.size_input
                 else:
                     sz[mode] = self.size_output
-            index = 
+            index = None 
         pos = [0,0,0]
 
         return self._process(did, pos, sz, modes)

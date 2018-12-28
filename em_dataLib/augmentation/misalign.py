@@ -9,7 +9,7 @@ Kisuk Lee <kisuklee@mit.edu>, 2016-2017
 
 import numpy as np
 
-from em_data.augmentor import DataAugment
+from .augmentor import DataAugment
 from em_segLib.seg_util import check_tensor
 
 class Misalign(DataAugment):

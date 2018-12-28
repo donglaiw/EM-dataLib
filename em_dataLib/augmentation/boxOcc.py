@@ -10,7 +10,7 @@ import math
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter
 
-from em_data.augmentor import DataAugment
+from .augmentor import DataAugment
 from em_data.geometry.box import *
 
 class BoxOcclusion(DataAugment):

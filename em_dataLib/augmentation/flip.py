@@ -1,7 +1,7 @@
 import numpy as np
 
 from em_segLib.transform import flip, crop
-from em_data.augmentor import DataAugment
+from .augmentor import DataAugment
 
 class Flip(DataAugment):
     """

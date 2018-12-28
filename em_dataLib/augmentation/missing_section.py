@@ -8,7 +8,7 @@ Kisuk Lee <kisuklee@mit.edu>, 2017
 
 import numpy as np
 
-from em_data.augmentor import DataAugment
+from .augmentor import DataAugment
 
 class MissingSection(DataAugment):
     """

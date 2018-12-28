@@ -1,5 +1,5 @@
 import numpy as np
-from em_dataLib.augmentor import DataAugment
+from .augmentor import DataAugment
 
 class Greyscale(DataAugment):
     """

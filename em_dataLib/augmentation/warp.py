@@ -9,7 +9,7 @@ Kisuk Lee <kisuklee@mit.edu>, 2017
 import numpy as np
 import time
 
-from ..augmentor import DataAugment
+from .augmentor import DataAugment
 from ..geometry.box import Box
 import warping
 
