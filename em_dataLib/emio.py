@@ -9,7 +9,7 @@ def imread(fname):
     # todo: add folder of images
     if '.hdf' in fname or '.h5' in fname:
         with h5py.File(fname, 'r') as f:
-            kk = f.keys()[0]
+            kk = [k for k in f.keys()][0]
             vol = np.asarray(f[kk])
     elif '.tif' in fname:
         vol = tifffile.imread(fname)

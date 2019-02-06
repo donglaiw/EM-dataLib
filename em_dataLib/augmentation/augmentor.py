@@ -1,13 +1,16 @@
 from collections import OrderedDict
 import numpy as np
 
-from options import strToArr
+from ..options import strToArr
 
-def getAugmentor(opt):
+def buildAugmentor(opt):
     aug_opt = strToArr(opt.aug_opt, '@', int)
-    aug_param_warp = strToArr(opt.aug_param_warp, '@', float)
+
+    aug_param_flip = strToArr(opt.aug_param_flip, '@', float)
+    aug_param_elastic = strToArr(opt.aug_param_elastic, '@', float)
     aug_param_color = strToArr(opt.aug_param_color, '@', float)
-    return Augmentor(aug_opt, aug_param_warp, aug_param_color)
+
+    return Augmentor(aug_opt, aug_param_flip, aug_param_elastic, aug_param_color)
 
 class DataAugment(object):
     """
@@ -44,14 +47,19 @@ class Augmentor(object):
     """
     Data augmentor.
     """
-    def __init__(self, aug_opt=None, aug_param_warp=None, aug_param_grey=None):
+    def __init__(self, aug_opt=None, aug_param_flip=None, aug_param_elastic=None, aug_param_color=None):
         self._augments = list()
         self._spec = {}
-        if aug_opt[0]>0: # warping
+        # 1. non-rigid deformation
+        if aug_opt[0]>0: # elastic
             self.append('warp', aug_param_warp)
-        if aug_opt[1]!=0: # flip/swap
+        # 2. rigid deformation
+        if aug_opt[1]!=0: # elastic
             self.append('flip', aug_opt[1])
-        if aug_opt[2]!=0: # greyscale
+        if aug_opt[2]!=0: # flip/swap
+            self.append('flip', aug_opt[1])
+        # 3. appearance
+        if aug_opt[3]!=0: # greyscale
             self.append('greyscale', aug_param_grey)
 
     def append(self, aug, **kwargs):

@@ -1,2 +1,3 @@
-import box
-import vector
+#import .box
+#import .vector
+from .coordinate import Coordinate
